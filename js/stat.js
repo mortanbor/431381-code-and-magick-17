@@ -29,10 +29,11 @@ var getMaxTime = function (times) {
   return maxTime;
 };
 
-// получение цвета для колонки игрока, кроме MY_NAME
-function randomColor() {
-  return 'rgba(0, 0, 255, ' + (Math.random() + 0.2) + ')';
-}
+// определение цвета колонки диграммы
+var getRandomColor = function (min, max) {
+  var rand = min - 0.5 + Math.random() * (max - min + 1);
+  return 'rgba(0, 0, 255, ' + rand + ')';
+};
 
 // ctx  - контекст канваса из файла game.js
 window.renderStatistics = function (ctx, names, times) {
@@ -50,7 +51,7 @@ window.renderStatistics = function (ctx, names, times) {
     ctx.fillStyle = '#000';
     ctx.fillText(names[i], barX, CLOUD_Y + CLOUD_HEIGHT - (GAP * 3));
     ctx.fillText(Math.round(times[i]), barX, CLOUD_Y + CLOUD_HEIGHT - FONT_GAP - GAP * 4 - BAR_MAXHEIGHT);
-    ctx.fillStyle = (names[i] === MY_NAME) ? 'rgba(255, 0, 0, 1)' : randomColor();
+    ctx.fillStyle = (names[i] === MY_NAME) ? 'rgba(255, 0, 0, 1)' : getRandomColor(0, 1);
     ctx.fillRect(barX, CLOUD_Y + CLOUD_HEIGHT - (GAP * 4), BAR_WIDTH, -(BAR_MAXHEIGHT * times[i]) / getMaxTime(times));
   }
 };
