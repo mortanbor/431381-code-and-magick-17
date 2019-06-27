@@ -32,8 +32,8 @@ var getWizardsDescription = function () {
       coatColor: getRandomElement(WIZARD_COATS),
       eyes: getRandomElement(EYES_COLORS)
     });
-   return wizards;
- };
+  }
+  return wizards;
 };
 
 var renderWizard = function (wizard) {
