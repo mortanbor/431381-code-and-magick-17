@@ -6,10 +6,10 @@ var SECONDWIZARD_NAMES = ['да Марья', 'Верон', 'Мирабелла',
 var WIZARD_COATS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
 var NUMBERS_OF_WIZARDS = 4;
+var WIZARD_FIREBALL = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 
 // показываем окно выбора волшебника
 var userDialog = document.querySelector('.setup');
-userDialog.classList.remove('hidden');
 
 // находим шаблон для копирования
 var similarListElement = document.querySelector('.setup-similar-list');
@@ -57,3 +57,109 @@ var collectFragment = function (wizards) {
 collectFragment(getWizardsDescription());
 
 userDialog.querySelector('.setup-similar').classList.remove('hidden');
+
+var setupOpen = document.querySelector('.setup-open');
+var setupClose = userDialog.querySelector('.setup-close');
+var userNameInput = userDialog.querySelector('.setup-user-name');
+/* var userSubmitInput = userDialog.querySelector('.setup-submit'); */
+
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    userDialogClose();
+  }
+};
+
+var userDialogOpen = function () {
+  userDialog.classList.remove('hidden');
+  document.addEventListener('keydown', onPopupEscPress);
+};
+
+var userDialogClose = function () {
+  userDialog.classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscPress);
+};
+
+setupOpen.addEventListener('click', function () {
+  userDialogOpen();
+});
+
+setupOpen.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    userDialogOpen();
+  }
+});
+
+setupClose.addEventListener('click', function () {
+  userDialogClose();
+});
+
+setupClose.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    userDialogClose();
+  }
+});
+
+userNameInput.addEventListener('focus', function () {
+  document.removeEventListener('keydown', onPopupEscPress);
+});
+
+/* userSubmitInput.addEventListener('click', function () {
+    userDialog.submit();
+});
+
+userSubmitInput.addEventListener('focus', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    userDialog.submit();
+  }
+}); */
+
+userNameInput.addEventListener('invalid', function () {
+  if (userNameInput.validity.tooShort) {
+    userNameInput.setCustomValidity('Имя должно состоять минимум из 2-х символов');
+  } else if (userNameInput.validity.tooLong) {
+    userNameInput.setCustomValidity('Имя не должно превышать 25-ти символов');
+  } else if (userNameInput.validity.valueMissing) {
+    userNameInput.setCustomValidity('Обязательное поле');
+  } else {
+    userNameInput.setCustomValidity('');
+  }
+});
+
+userNameInput.addEventListener('input', function (evt) {
+  var target = evt.target;
+  if (target.value.length < 2) {
+    target.setCustomValidity('Имя должно состоять минимум из 2-х символов');
+  } else {
+    target.setCustomValidity('');
+  }
+});
+
+var setupPlayer = document.querySelector('.setup-player');
+/* var playerCoatColor = setupPlayer.querySelector('input[name="coat-color"]');
+var playerEyesColor = setupPlayer.querySelector('input[name="eyes-color"]'); */
+var playerFireballColor = setupPlayer.querySelector('input[name="fireball-color"]');
+
+/* var wizardCoat = setupPlayer.querySelector('.wizard-coat');
+var wizardEyes = setupPlayer.querySelector('.wizard-eyes'); */
+var wizardFireball = setupPlayer.querySelector('.setup-fireball-wrap');
+
+wizardFireball.addEventListener('click', function () {
+  var colorFireball = getRandomElement(WIZARD_FIREBALL);
+
+  wizardFireball.value = colorFireball;
+  playerFireballColor.style.background = colorFireball;
+});
+
+/* Изменение цвета фаерболов по нажатию.
+Цвет задаётся через изменение фонаs
+у блока .setup-fireball-wrap. */
+
+/* { files: [],
+  username: 'rerer',
+  'coat-color': 'rgb(101, 137, 164)', 119 строка
+  'eyes-color': 'black', 120 строка
+  'fireball-color': '#ee4830' } 125 строка
+Назад */
