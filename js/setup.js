@@ -106,6 +106,10 @@ userNameInput.addEventListener('focus', function () {
   document.removeEventListener('keydown', onPopupEscPress);
 });
 
+userNameInput.addEventListener('blur', function () {
+  document.addEventListener('keydown', onPopupEscPress);
+});
+
 /* userSubmitInput.addEventListener('click', function () {
     userDialog.submit();
 });
@@ -138,28 +142,31 @@ userNameInput.addEventListener('input', function (evt) {
 });
 
 var setupPlayer = document.querySelector('.setup-player');
-/* var playerCoatColor = setupPlayer.querySelector('input[name="coat-color"]');
-var playerEyesColor = setupPlayer.querySelector('input[name="eyes-color"]'); */
-var playerFireballColor = setupPlayer.querySelector('input[name="fireball-color"]');
+var setupCoatColor = setupPlayer.querySelector('input[name="coat-color"]');
+var setupEyesColor = setupPlayer.querySelector('input[name="eyes-color"]');
+var setupFireballColor = setupPlayer.querySelector('input[name="fireball-color"]');
 
-/* var wizardCoat = setupPlayer.querySelector('.wizard-coat');
-var wizardEyes = setupPlayer.querySelector('.wizard-eyes'); */
+var wizardCoat = setupPlayer.querySelector('.wizard-coat');
+var wizardEyes = setupPlayer.querySelector('.wizard-eyes');
 var wizardFireball = setupPlayer.querySelector('.setup-fireball-wrap');
 
 wizardFireball.addEventListener('click', function () {
   var colorFireball = getRandomElement(WIZARD_FIREBALL);
 
-  wizardFireball.value = colorFireball;
-  playerFireballColor.style.background = colorFireball;
+  wizardFireball.style.background = colorFireball;
+  setupFireballColor.value = colorFireball;
 });
 
-/* Изменение цвета фаерболов по нажатию.
-Цвет задаётся через изменение фонаs
-у блока .setup-fireball-wrap. */
+wizardCoat.addEventListener('click', function () {
+  var colorOfCoat = getRandomElement(WIZARD_COATS);
 
-/* { files: [],
-  username: 'rerer',
-  'coat-color': 'rgb(101, 137, 164)', 119 строка
-  'eyes-color': 'black', 120 строка
-  'fireball-color': '#ee4830' } 125 строка
-Назад */
+  wizardCoat.style.fill = colorOfCoat;
+  setupCoatColor.value = colorOfCoat;
+});
+
+wizardEyes.addEventListener('click', function () {
+  var colorOfEyes = getRandomElement(EYES_COLORS);
+
+  wizardEyes.style.fill = colorOfEyes;
+  setupEyesColor.value = colorOfEyes;
+});
